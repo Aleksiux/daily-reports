@@ -36,9 +36,9 @@ Run push_data.py again. This time, you can create tables and import data from fi
 Finally, you can generate the final report.
 
 ## Note<br>
-Make sure to replace host, user, password, and any other relevant parameters with your actual database connection details.
-The best way to add them is to store in .env file.
-There is an example how CSV generated named with _receipt.csv extension.
+Make sure to replace host, user, password, and any other relevant parameters with your actual database connection details.<br>
+The best way to add them is to store in .env file.<br>
+There is an example how CSV generated named with _receipt.csv extension.<br>
 Feel free to reach out if you encounter any issues or need further assistance.
 
 
