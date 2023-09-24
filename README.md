@@ -40,3 +40,5 @@ Make sure to replace host, user, password, and any other relevant parameters wit
 The best way to add them is to store in .env file.
 
 Feel free to reach out if you encounter any issues or need further assistance.
+
+# There is an example how CSV generated named with _receipt.csv extension.
