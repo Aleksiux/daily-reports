@@ -19,16 +19,23 @@ mycursor = mydb.cursor()
 
 # mycursor.execute("CREATE DATABASE reportsdb")
 # mycursor.execute(
-#     "CREATE TABLE Reports (id int PRIMARY KEY AUTO_INCREMENT, storeid int, quantity int, unit_cost_price float)")
-def insert_into(store_id, quantity, unit_cost_price):
+#     "CREATE TABLE Reports (id int PRIMARY KEY AUTO_INCREMENT, storeid int, quantity int, total_paid_amount float)")
+def insert_into(store_id, quantity, total_paid_amount):
+    """
+    Inserting data to mysql database by CRUD
+    """
     for i in range(len(store_id)):
-        sql = """INSERT INTO reportsdb.reports (storeid, quantity, unit_cost_price) VALUES (%s, %s, %s)"""
-        values = (store_id[i], quantity[i], unit_cost_price[i])
+        sql = """INSERT INTO reportsdb.reports (storeid, quantity, total_paid_amount) VALUES (%s, %s, %s)"""
+        values = (store_id[i], quantity[i], total_paid_amount[i])
         mycursor.execute(sql, values)
         mydb.commit()
 
 
 def get_data_from_db():
-    query = "SELECT storeid,quantity,unit_cost_price  FROM reportsdb.reports"
-    df = pd.read_sql(query, mydb, columns=['storeid', 'quantity', 'unit_cost_price'])
+    """
+    Getting data from mysql database from reports table
+    :return: adding that data to pandas dataframe
+    """
+    query = "SELECT storeid,quantity,total_paid_amount  FROM reportsdb.reports"
+    df = pd.read_sql(query, mydb, columns=['storeid', 'quantity', 'total_paid_amount'])
     return df
