@@ -102,7 +102,3 @@ class GetReceiptData:
             self.get_total_paid_amount(file)
         insert_into(self.store_id, self.quantity, self.total_paid_amount)
         return self.store_id, self.quantity, self.total_paid_amount
-
-
-receipt_data = GetReceiptData()
-receipt_data.get_data_and_insert()

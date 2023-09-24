@@ -17,9 +17,15 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 
-# mycursor.execute("CREATE DATABASE reportsdb")
-# mycursor.execute(
-#     "CREATE TABLE Reports (id int PRIMARY KEY AUTO_INCREMENT, storeid int, quantity int, total_paid_amount float)")
+def create_database():
+    mycursor.execute("CREATE DATABASE reportsdb")
+
+
+def create_table():
+    mycursor.execute(
+        "CREATE TABLE Reports (id int PRIMARY KEY AUTO_INCREMENT, storeid int, quantity int, total_paid_amount float)")
+
+
 def insert_into(store_id, quantity, total_paid_amount):
     """
     Inserting data to mysql database by CRUD
