@@ -38,7 +38,7 @@ Finally, you can generate the final report.
 ## Note<br>
 Make sure to replace host, user, password, and any other relevant parameters with your actual database connection details.
 The best way to add them is to store in .env file.
-
+There is an example how CSV generated named with _receipt.csv extension.
 Feel free to reach out if you encounter any issues or need further assistance.
 
-# There is an example how CSV generated named with _receipt.csv extension.
+
