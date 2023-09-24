@@ -1,5 +1,6 @@
 import mysql.connector
 from dotenv import dotenv_values
+import pandas as pd
 
 config = dotenv_values(".env")
 host = config['host']
@@ -20,14 +21,14 @@ mycursor = mydb.cursor()
 # mycursor.execute(
 #     "CREATE TABLE Reports (id int PRIMARY KEY AUTO_INCREMENT, storeid int, quantity int, unit_cost_price float)")
 def insert_into(store_id, quantity, unit_cost_price):
+    for i in range(len(store_id)):
+        sql = """INSERT INTO reportsdb.reports (storeid, quantity, unit_cost_price) VALUES (%s, %s, %s)"""
+        values = (store_id[i], quantity[i], unit_cost_price[i])
+        mycursor.execute(sql, values)
+        mydb.commit()
 
-    sql = """INSERT INTO Reports (storeid, quantity, unit_cost_price) VALUES (%s, %s, %s)"""
-    value = (store_id, quantity, unit_cost_price)
-    mycursor.execute(sql, value)
-    mydb.commit()
 
-
-mycursor.execute("SELECT * FROM reportsdb.reports")
-
-# for x in mycursor:
-#     print(x)
+def get_data_from_db():
+    query = "SELECT storeid,quantity,unit_cost_price  FROM reportsdb.reports"
+    df = pd.read_sql(query, mydb, columns=['storeid', 'quantity', 'unit_cost_price'])
+    return df
