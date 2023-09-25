@@ -1,4 +1,4 @@
-from CRUD import get_data_from_db
+from CRUD import get_data_from_db, create_table, create_database
 from get_data import GetReceiptData
 import os
 import datetime
@@ -13,7 +13,9 @@ def create_final_csv_report():
     df = get_data_from_db()
     agg_df = df.groupby('storeid').agg({'quantity': 'sum', 'total_paid_amount': 'sum'}).reset_index()
     agg_df.insert(0, 'Date', datetime.date.today())
-    agg_df.columns = ['Date', 'StoreID', 'TotalItems', 'TotalAmount']
+    total_counts = df['storeid'].value_counts().reset_index()
+    agg_df = agg_df.merge(total_counts)
+    agg_df.columns = ['Date', 'StoreID', 'TotalItems', 'TotalAmount', 'TotalReceipts']
     return agg_df.to_csv(f'{datetime.date.today()}_receipt.csv', index=False)
 
 
@@ -26,6 +28,10 @@ while True:
     elif user_input == '2':
         print(f"Final report was created at: {os.getcwd()}")
         create_final_csv_report()
+    elif user_input == '3':
+        create_database()
+    elif user_input == '4':
+        create_table()
     elif user_input == '0':
         print("You have exited the program")
         break
