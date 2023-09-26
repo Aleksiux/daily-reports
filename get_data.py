@@ -31,10 +31,10 @@ def get_xml_tree():
         for file in get_files():
             with open(file, 'rb') as xml_file:
                 xml_tree = etree.parse(xml_file)
-                if XSD_SCHEMA.validate(xml_tree) and test_xml_file(xml_tree):
+                if XSD_SCHEMA.validate(xml_tree) and test_xml_file(xml_tree, file):
                     xml_files.append(xml_tree)
                 else:
-                    # print(f"XML {file} is wrong!")
+                    print(f"XML {file} is wrong!")
                     xml_files.append(xml_tree)
                     for error in XSD_SCHEMA.error_log:
                         print(error)
@@ -43,32 +43,27 @@ def get_xml_tree():
         print(f"Error processing XML: {error}")
 
 
-def test_xml_file(xml_tree):
+def test_xml_file(xml_tree, file):
     """
     Checking if xml file has required fields for task.
     """
     try:
         total_paid = xml_tree.xpath('//default:RetailTransaction/default:Total['
                                     '@TotalType="TransactionNetAmount"]/text()', namespaces=NAMESPACES)[0]
+        return total_paid
+    except IndexError:
+        print(f'Total paid has no value or was incorrect in xml: {file}')
+    try:
         store_id = xml_tree.xpath('//default:UnitID/text()', namespaces=NAMESPACES)[0]
+        return store_id
+    except IndexError:
+        print(f'Store_id has no value or was incorrect in xml: {file}')
+    try:
         quantity = xml_tree.xpath('//default:RetailTransaction/default:LineItem/default:Sale/default:Quantity/text()',
                                   namespaces=NAMESPACES)[0]
-        if not total_paid:
-            print(f'Total paid has no value or was incorrect')
-            return False
-        if not store_id:
-            print(f'Store_id has no value or was incorrect')
-            return False
-        if not quantity:
-            print(f'Quantity has no value or was incorrect')
-            return False
-        return True
+        return quantity
     except IndexError:
-        print(f'One or more required fields are missing you should check -> by choosing test files.')
-        return False
-    except Exception as error:
-        print(f"Error testing XML file: {error}")
-        return False
+        print(f"Quantity has no value or was incorrect in xml: {file}")
 
 
 class GetReceiptData:

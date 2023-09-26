@@ -1,6 +1,7 @@
 from CRUD import get_data_from_db, create_table, create_database
-from get_data import GetReceiptData
+from get_data import GetReceiptData, test_xml_file, get_files
 import os
+from lxml import etree
 import datetime
 
 receipt_data = GetReceiptData()
@@ -21,7 +22,8 @@ def create_final_csv_report():
 
 while True:
     user_input = input(
-        "What you wanna do?\n1.GET data\n2.Create final CSV report\n3.Create database\n4.Create database table\n0.Exit "
+        "What you wanna do?\n1.GET data\n2.Create final CSV report\n3.Create database\n4.Create database table\n5."
+        "Test files\n0.Exit "
         "program\n")
     if user_input == '1':
         receipt_data.get_data_and_insert()
@@ -32,6 +34,11 @@ while True:
         create_database()
     elif user_input == '4':
         create_table()
+    elif user_input == '5':
+        for file in get_files():
+            with open(file, 'rb') as xml_file:
+                xml_tree = etree.parse(xml_file)
+                test_xml_file(xml_tree, file)
     elif user_input == '0':
         print("You have exited the program")
         break
